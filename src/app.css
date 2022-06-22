@@ -1,0 +1,71 @@
+*{
+    margin: 0px;
+    background-color: rgb(48, 47, 47);
+}
+body{
+    width: 100vw;
+}
+#win-screen{
+    height: 100%;
+    width: 100%;
+    background-color: rgb(47, 47, 47);
+    position: absolute;
+    z-index: 1;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    font-size: 30px;
+    overflow: hidden;
+}
+.menu{
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+img{
+    z-index: 0;
+    position: relative;
+}
+.timer{
+    color: white;
+    font-size: 50px;
+    z-index: 0;
+}
+.scoreboard{
+    color: white;
+    font-size: 50px;
+    background-color: blueviolet;
+    width: 500px;
+}
+#clickMenu{
+    background: rgba(1,1,1,0.5);
+    height: 200px;
+    width: 100px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.selection-box{
+    height: 150px;
+    width:  80px;
+    border: 2px black solid;
+    position: absolute;
+}
+
+.menu-option{
+    width: 100%;
+    height: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.menu-option:hover{
+    background-color: rgba(1,1,1,0.9);
+}
