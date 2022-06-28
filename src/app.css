@@ -20,7 +20,7 @@ body{
     overflow: hidden;
 }
 .menu{
-    height: 100px;
+    height: 125px;
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -68,4 +68,22 @@ img{
 }
 .menu-option:hover{
     background-color: rgba(1,1,1,0.9);
+}
+.characters-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+}
+.img-containers{
+    border: 1px solid gray;
+    height: 100px;
+    width: 75px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.img-containers img{
+    height: 90px;
 }

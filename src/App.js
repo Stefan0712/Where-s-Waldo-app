@@ -2,12 +2,50 @@ import React, { useEffect, useRef } from 'react';
 import './app.css'
 import {useState} from 'react'
 import useMouse from '@react-hook/mouse-position'
+import Characters from './Components/Characters';
+import {db} from './firebase'
+import {collection, docs, getDocs, doc, getDoc} from 'firebase/firestore'
+
+
 function App() {
+  let [limit1, setLimit1] = useState([])
+  let [limit2, setLimit2] = useState([])
+  let [limit3, setLimit3] = useState([])
+
+  const lim1Ref = doc(db, "characters", "Character 1")
+  const lim2Ref = doc(db, "characters", "Character 2")
+  const lim3Ref = doc(db, "characters", "Character 3")
+
+  useEffect(()=>{
+    const getLimits = async ()=>{
+      const lim1 = await getDoc(lim1Ref)
+      setLimit1((limit1)=>[lim1._document.data.value.mapValue.fields.minX["integerValue"],lim1._document.data.value.mapValue.fields.maxX["integerValue"],lim1._document.data.value.mapValue.fields.minY["integerValue"],lim1._document.data.value.mapValue.fields.maxY["integerValue"]])
+      const lim2 = await getDoc(lim2Ref)
+      setLimit2((limit2)=>[lim2._document.data.value.mapValue.fields.minX["integerValue"],lim2._document.data.value.mapValue.fields.maxX["integerValue"],lim2._document.data.value.mapValue.fields.minY["integerValue"],lim2._document.data.value.mapValue.fields.maxY["integerValue"]])
+
+      const lim3 = await getDoc(lim3Ref)
+      setLimit3((limit3)=>[lim3._document.data.value.mapValue.fields.minX["integerValue"],lim3._document.data.value.mapValue.fields.maxX["integerValue"],lim3._document.data.value.mapValue.fields.minY["integerValue"],lim3._document.data.value.mapValue.fields.maxY["integerValue"]])
+
+
+      console.log(limit1, limit2, limit3)
+
+      
+     
+    }
+    getLimits();
+  },[])
+
+
 
   let [seconds, setSeconds] = useState(0)
   let [minutes, setMinutes] = useState(0)
   let [menus, setMenus] = useState([])
   let [endTime, setEndTime] = useState([])
+  let [charLeft, setCharLeft] = useState(2)
+  let [foundChar, setFoundChar] = useState([])
+
+
+  
   const ref = React.useRef(null)
   const char1 = React.useRef(null)
   const char2 = React.useRef(null)
@@ -15,7 +53,6 @@ function App() {
   const timerRef = React.useRef(null)
   const winRef = React.useRef(null)
   const clickMenuRef = React.useRef(null)
-  let [charLeft, setCharLeft] = useState(2)
   const mouse = useRef(ref, {
     enterDelay: 100,
     leaveDelay: 100
@@ -46,30 +83,32 @@ function App() {
 })
 
 const checkAns=(ch,char)=>{
-  if(ch==="ch1"&&(position.x>1653&&position.x<1715)&&(position.y>1195&&position.y<1345)){
+  if(ch==="ch1"&&(position.x>limit1[0]&&position.x<limit1[1])&&(position.y>limit1[2]&&position.y<limit1[3])){
     char.current.style.backgroundColor = 'green';
     setTimeout(()=>{char.current.style.cssText = 'pointer-events: none; backgroundColor:rgb(47,47,47)'},150)
     setTimeout(()=>{clickMenuRef.current.style.cssText = 'none';},100)
     setCharLeft((charLeft)=>charLeft-1)
+    setFoundChar((foundChar)=>[...foundChar,ch])
     checkWin(charLeft)
 
 
-  }else if(ch==="ch2"&&(position.x>227&&position.x<302)&&(position.y>1083&&position.y<1210)){
+  }else if(ch==="ch2"&&(position.x>limit2[0]&&position.x<limit2[1])&&(position.y>limit2[2]&&position.y<limit2[3])){
     char.current.style.backgroundColor = 'green';
     setTimeout(()=>{char.current.style.cssText = 'pointer-events: none; backgroundColor:rgb(47,47,47)'},150)
     setTimeout(()=>{clickMenuRef.current.style.display = 'none';},100)
     setCharLeft((charLeft)=>charLeft-1)
+    setFoundChar((foundChar)=>[...foundChar,ch])
     checkWin(charLeft)
 
 
 
-  }else if(ch==="ch3"&&(position.x>2745&&position.x<2797)&&(position.y>370&&position.y<444)){
+  }else if(ch==="ch3"&&(position.x>limit3[0]&&position.x<limit3[1])&&(position.y>limit3[2]&&position.y<limit3[3])){
     console.log("Correct")
     char.current.style.backgroundColor = 'green';
     setTimeout(()=>{char.current.style.cssText = 'pointer-events: none; backgroundColor:rgb(47,47,47)'},150)
     setTimeout(()=>{clickMenuRef.current.style.display = 'none';},100)
     setCharLeft((charLeft)=>charLeft-1)
-    
+    setFoundChar((foundChar)=>[...foundChar,ch])
     checkWin(charLeft)
 
 
@@ -123,9 +162,9 @@ const handleClick = (e) =>{
           {minutes}:{seconds}
         </div>
         <div className="buttons">
-       
 
         </div>
+        <Characters foundChar={foundChar}/>
 
       </div>
       <img src='Full.jpg' alt='background' id='full-image' ref={ref} onClick={handleClick}></img>
