@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Where-s-Waldo-app/static/css/main.4c2d1684.css",
+    "main.js": "/Where-s-Waldo-app/static/js/main.54db818b.js",
+    "index.html": "/Where-s-Waldo-app/index.html",
+    "main.4c2d1684.css.map": "/Where-s-Waldo-app/static/css/main.4c2d1684.css.map",
+    "main.54db818b.js.map": "/Where-s-Waldo-app/static/js/main.54db818b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4c2d1684.css",
+    "static/js/main.54db818b.js"
+  ]
+}
